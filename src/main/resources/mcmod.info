@@ -1,0 +1,16 @@
+[
+{
+  "modid": "jsonables",
+  "name": "JSONAbles",
+  "description": "Lets you add custom Tinker's Construct materials via json.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Jared"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
