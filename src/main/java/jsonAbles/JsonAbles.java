@@ -61,7 +61,6 @@ public class JsonAbles {
 	public void init(FMLInitializationEvent event) {
 		if (Loader.isModLoaded("Thaumcraft")) {
 			RecipeRegistry.registerAspects();
-			RecipeRegistry.registerWandCaps();
 		}
 		if (Loader.isModLoaded("TConstruct")) {
 			RecipeRegistry.registerToolMaterials();
@@ -73,9 +72,6 @@ public class JsonAbles {
 
 		if (Loader.isModLoaded("Botania")) {
 			RecipeRegistry.registerBrews();
-		}
-		if (Loader.isModLoaded("exnihilo")) {
-			RecipeRegistry.registerHammers();
 		}
 	}
 

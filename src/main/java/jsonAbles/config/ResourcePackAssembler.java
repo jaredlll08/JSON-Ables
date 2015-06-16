@@ -42,6 +42,11 @@ public class ResourcePackAssembler
     {
         private String ext;
         private File file;
+		public CustomFile(String ext, File file) {
+			this.ext = ext;
+			this.file = file;
+		}
+        
     }
 
     private List<File> icons = new ArrayList<File>();

@@ -17,8 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-<<<<<<< HEAD
-version = "1.0.6"
+version = "1.0.8"
 group= "JSONAbles" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "JSONAbles"
 
@@ -26,49 +25,7 @@ minecraft {
     version = "1.7.10-10.13.3.1381-1.7.10"
     runDir = "eclipse"
 }
-=======
-version = "0.0.5l"
-group= "fluxedCrystals"
-archivesBaseName = "fluxedCrystals"
 
-minecraft {
-    version = "1.7.10-10.13.2.1291"
-    runDir = "eclipse"
-}
-repositories{
-    maven { // ttCore
-		name 'tterrag Repo'
-		url "http://maven.tterrag.com/"
-	}
-	maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven"
-    }
-	 maven {
-	 url = "http://mobiusstrip.eu/maven" 
-	 }
-}
-
-dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-	compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"
-	compile files("/libs/BloodMagic-1.7.10-1.2.1b-1-deobf.jar")
-	compile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
-	compile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
-	compile "mcp.mobius.waila:Waila:${waila_version}"
-}
->>>>>>> 4b3dc743a54dda6f6f68903865cd63df63373f3f
 
 processResources
 {
@@ -89,7 +46,6 @@ processResources
         exclude 'mcmod.info'
     }
 }
-<<<<<<< HEAD
 repositories {
     maven { // ttCore
         name 'tterrag Repo'
@@ -117,5 +73,3 @@ task deobfJar(type: Jar) {
 }
 
 tasks.build.dependsOn deobfJar
-=======
->>>>>>> 4b3dc743a54dda6f6f68903865cd63df63373f3f

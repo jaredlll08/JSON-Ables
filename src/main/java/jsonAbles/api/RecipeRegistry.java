@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import jsonAbles.ModProps;
 import jsonAbles.blocks.MoltenFluid;
-import jsonAbles.items.CustomHammer;
 import jsonAbles.items.ItemFluidBucket;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,14 +16,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.PatternBuilder;
 import tconstruct.tools.TinkerTools;
-import thaumcraft.api.ThaumcraftApi;
-import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.wands.WandCap;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.brew.Brew;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -37,8 +33,6 @@ public class RecipeRegistry {
 	public static ArrayList<OreBerrySet> oreBerries = new ArrayList<OreBerrySet>();
 	public static ArrayList<SmelteryFuelSet> smelteryFuels = new ArrayList<SmelteryFuelSet>();
 	public static ArrayList<BrewSet> brews = new ArrayList<BrewSet>();
-	public static ArrayList<HammerSet> hammers = new ArrayList<HammerSet>();
-	public static ArrayList<WandCapSet> wandCaps = new ArrayList<WandCapSet>();
 
 	public static ArrayList<ItemSet> items = new ArrayList<ItemSet>();
 
@@ -49,26 +43,11 @@ public class RecipeRegistry {
 		}
 	}
 
-	public static void registerWandCap(WandCapSet set) {
-		wandCaps.add(set);
-	}
-
-	public static void registerWandCaps() {
-		for (WandCapSet set : wandCaps) {
-			WandCap cap = new WandCap(set.key, set.multiplier, set.item, set.craftCost);
-			ResourceLocation location = new ResourceLocation(ModProps.modid, "textures/wands/caps/" + set.textureName);
-			cap.setTexture(location);
-			cap.caps.put(set.key, cap);
-		}
-	}
 
 	public static void registerBrew(BrewSet set) {
 		brews.add(set);
 	}
 
-	public static void registerHammer(HammerSet set) {
-		hammers.add(set);
-	}
 
 	public static int getToolModifiers(int materialID) {
 		for (MaterialSet set : materials) {
@@ -105,6 +84,14 @@ public class RecipeRegistry {
 		}
 		return null;
 
+	}
+	public static boolean isJsonables(int materialID){
+		for (MaterialSet set : materials) {
+			if (set.materialID == materialID) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean registerMaterialSet(MaterialSet set) {
@@ -166,13 +153,6 @@ public class RecipeRegistry {
 		}
 	}
 
-	public static void registerHammers() {
-		for (HammerSet set : hammers) {
-			Item hammer = new CustomHammer(set);
-			GameRegistry.registerItem(hammer, set.name);
-			GameRegistry.addRecipe(new ShapedOreRecipe(hammer, " i ", " si", "s  ", 's', "stickWood", 'i', set.resource));
-		}
-	}
 
 	public static void registerBrews() {
 		for (BrewSet set : brews) {
@@ -217,10 +197,16 @@ public class RecipeRegistry {
 	public static void registerFluids() {
 		for (FluidSet set : fluids) {
 			Fluid moltenFluid;
-			moltenFluid = new Fluid(set.unlocalizedName).setLuminosity(set.luminosity).setDensity(set.density).setViscosity(set.viscosity).setTemperature(set.temperature);
+			moltenFluid = new Fluid(set.unlocalizedName).setLuminosity(set.luminosity).setDensity(set.density).setViscosity(set.viscosity).setTemperature(set.temperature).setGaseous(set.gaseous);
 			FluidRegistry.registerFluid(moltenFluid);
-
-			MoltenFluid fluidBlock = new MoltenFluid(moltenFluid, set.color);
+			Material mat= Material.air;
+			if(set.setFire){
+				mat = Material.lava;
+			}
+			if(!set.setFire){
+				mat = Material.water;
+			}
+			MoltenFluid fluidBlock = new MoltenFluid(moltenFluid, set.color, mat, set);
 			fluidBlock.setBlockName(set.unlocalizedName);
 			GameRegistry.registerBlock(fluidBlock, set.unlocalizedName);
 

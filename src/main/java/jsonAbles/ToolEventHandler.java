@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -64,6 +65,24 @@ public class ToolEventHandler {
 					for (String str : list) {
 						if (str != null)
 							event.toolTip.add(str);
+					}
+					
+					boolean toolTip = false;
+					if(!toolTip){
+						toolTip = RecipeRegistry.isJsonables(toolTag.getInteger("Head"));
+					}
+					if(!toolTip){
+						toolTip = RecipeRegistry.isJsonables(toolTag.getInteger("Handle"));
+					}
+					if(!toolTip){
+						toolTip = RecipeRegistry.isJsonables(toolTag.getInteger("Accessory"));
+					}
+					if(!toolTip){
+						toolTip = RecipeRegistry.isJsonables(toolTag.getInteger("Extra"));
+					}
+					
+					if(toolTip){
+						event.toolTip.add(EnumChatFormatting.DARK_RED + "This tool contains a part added by JSONAbles.");
 					}
 				}
 			}

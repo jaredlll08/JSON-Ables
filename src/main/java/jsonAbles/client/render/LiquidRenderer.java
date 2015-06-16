@@ -14,7 +14,7 @@ public class LiquidRenderer implements ISimpleBlockRenderingHandler {
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 		MoltenFluid fluid = (MoltenFluid) block;
 		int color = fluid.color;
-		renderer.renderBlockAsItem(fluid, 0, color);
+		renderer.renderBlockAsItem(fluid, color, color);
 	}
 
 	@Override

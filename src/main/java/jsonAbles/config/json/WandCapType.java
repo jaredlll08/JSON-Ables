@@ -14,7 +14,7 @@ public class WandCapType implements IJSONObject {
 
 	@Override
 	public void register() {
-		RecipeRegistry.registerWandCap(new WandCapSet(this));
+//		RecipeRegistry.registerWandCap(new WandCapSet(this));
 	}
 
 }

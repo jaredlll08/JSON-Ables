@@ -14,14 +14,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import exnihilo.items.hammers.ItemHammerBase;
 
-public class CustomHammer extends ItemHammerBase {
+public class ItemCustomHammer extends ItemHammerBase {
 
 	public IIcon handle;
 	public IIcon head;
 
 	public HammerSet set;
 
-	public CustomHammer(HammerSet set) {
+	public ItemCustomHammer(HammerSet set) {
 		super(EnumHelper.addToolMaterial(set.name, set.harvestLevel, set.maxUses, set.efficiency, set.damage, set.enchantability));
 		this.set = set;
 		setUnlocalizedName(ModProps.modid + ":" + set.name);

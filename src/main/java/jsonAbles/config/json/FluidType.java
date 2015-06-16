@@ -16,6 +16,7 @@ public class FluidType implements IJSONObject {
 	public int[] meltingItemsTemperature = new int[] {};
 	public int[] meltingItemsOutputAmount = new int[] {};
 	public int castingMaterialID;
+	public boolean setFire = false;
 
 	@Override
 	public void register() {

@@ -2,6 +2,7 @@ package jsonAbles.blocks;
 
 import jsonAbles.JsonAbles;
 import jsonAbles.ModProps;
+import jsonAbles.api.FluidSet;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
@@ -12,21 +13,22 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class MoltenFluid extends BlockFluidClassic {
-	private IIcon stillIcon;
-	private IIcon flowingIcon;
+	public IIcon stillIcon;
+	public IIcon flowingIcon;
 	private String stillIconTexture = "liquid_gray";
 	private String flowIconTexture = "liquid_gray_flow";
 	private Fluid fluid;
 	public int color;
+	public FluidSet set;
 
-	public MoltenFluid(Fluid fluid, int color) {
-		super(fluid, Material.lava);
-		setLightLevel(100.0F);
+	public MoltenFluid(Fluid fluid, int color, Material mat, FluidSet set) {
+		super(fluid,mat);
+		setLightLevel(set.getLuminosity());
 		setHardness(1.0F);
 		setBlockName(fluid.getName());
 		this.fluid = fluid;
 		String path = JsonAbles.configDir.getPath();
-		
+		this.set = set;
 		this.stillIconTexture = (ModProps.modid + ":" + stillIconTexture);
 		this.flowIconTexture = (ModProps.modid + ":" + flowIconTexture);
 		this.color = color;

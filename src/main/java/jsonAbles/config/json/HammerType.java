@@ -18,7 +18,7 @@ public class HammerType implements IJSONObject{
 	
 	@Override
 	public void register() {
-		RecipeRegistry.registerHammer(new HammerSet(this));
+//		RecipeRegistry.registerHammer(new HammerSet(this));
 	}
 
 }

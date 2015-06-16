@@ -14,12 +14,13 @@ public class FluidSet {
 	int viscosity;
 	int color;
 	int castingMaterialID;
+	boolean setFire;
 
 	public FluidSet(FluidType type) {
-		this(type.unlocalizedName, type.density, type.gaseous, type.luminosity, type.temperature, type.viscosity, type.color, type.castingMaterialID);
+		this(type.unlocalizedName, type.density, type.gaseous, type.luminosity, type.temperature, type.viscosity, type.color, type.castingMaterialID, type.setFire);
 	}
 
-	public FluidSet(String unlocalizedName, int density, boolean gaseous, int luminosity, int temperature, int viscosity, int color, int castingMaterialID) {
+	public FluidSet(String unlocalizedName, int density, boolean gaseous, int luminosity, int temperature, int viscosity, int color, int castingMaterialID, boolean setFire) {
 		this.unlocalizedName = unlocalizedName;
 		this.density = density;
 		this.gaseous = gaseous;
@@ -28,6 +29,7 @@ public class FluidSet {
 		this.viscosity = viscosity;
 		this.color = color;
 		this.castingMaterialID = castingMaterialID;
+		this.setFire = setFire;
 	}
 
 	public String getUnlocalizedName() {
