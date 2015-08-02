@@ -91,7 +91,7 @@ public class ConfigHandler {
 					registerAll(readerHammers.getElements("hammers"));
 
 				} catch (Exception e) {
-
+					JsonAbles.logger.warn("Configuration error!", e);
 				}
 			}
 

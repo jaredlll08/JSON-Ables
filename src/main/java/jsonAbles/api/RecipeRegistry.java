@@ -58,6 +58,15 @@ public class RecipeRegistry {
 		return 0;
 	}
 
+	public static ItemStack[][] getNativeModifiers(int materialID) {
+		for (MaterialSet set : materials) {
+			if (set.materialID == materialID) {
+				return set.nativeModifiers;
+			}
+		}
+		return null;
+	}
+
 	public static boolean getMaterialCasting(int materialID) {
 		for (MaterialSet set : materials) {
 			if (set.materialID == materialID) {

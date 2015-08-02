@@ -14,12 +14,13 @@ public class MaterialSet {
 	public int modifiers;
 	public float arrowMass, arrowBreakChance, bowSpeedMax;
 	public int bowDrawSpeed;
+	public ItemStack[][] nativeModifiers;
 
 	public MaterialSet(MaterialType type) {
-		this(type.key, type.name, EnumChatFormatting.getValueByName(type.style.toUpperCase()).toString(), StackHelper.getStackFromString(type.resource), type.materialID, type.harvestLevel, type.durability, type.miningSpeed, type.attack, type.reinforced, type.primaryColor, type.value, type.handleModifier, type.stonebound, type.buildParts,  type.modifiers, type.lore, type.arrowMass, type.arrowBreakChance, type.bowDrawSpeed, type.bowSpeedMax);
+		this(type.key, type.name, EnumChatFormatting.getValueByName(type.style.toUpperCase()).toString(), StackHelper.getStackFromString(type.resource), type.materialID, type.harvestLevel, type.durability, type.miningSpeed, type.attack, type.reinforced, type.primaryColor, type.value, type.handleModifier, type.stonebound, type.buildParts,  type.modifiers, type.lore, type.arrowMass, type.arrowBreakChance, type.bowDrawSpeed, type.bowSpeedMax, type.getNativeModifiers());
 	}
 
-	public MaterialSet(String key, String name, String style, ItemStack resource, int materialID, int harvestLevel, int durability, int miningSpeed, int attack, int reinforced, int primaryColor, int value, float handleModifier, float stonebound, boolean buildParts, int modifiers, String lore, float arrowMass, float arrowBreakChance, int bowDrawSpeed, float bowSpeedMax) {
+	public MaterialSet(String key, String name, String style, ItemStack resource, int materialID, int harvestLevel, int durability, int miningSpeed, int attack, int reinforced, int primaryColor, int value, float handleModifier, float stonebound, boolean buildParts, int modifiers, String lore, float arrowMass, float arrowBreakChance, int bowDrawSpeed, float bowSpeedMax, ItemStack[][] nativeModifiers) {
 		this.key = key;
 		this.name = name;
 		this.style = style;
@@ -41,6 +42,7 @@ public class MaterialSet {
 		this.arrowBreakChance = arrowBreakChance;
 		this.bowDrawSpeed = bowDrawSpeed;
 		this.bowSpeedMax = bowSpeedMax;
+		this.nativeModifiers = nativeModifiers;
 	}
 
 	public String getKey() {
