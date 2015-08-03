@@ -1,9 +1,13 @@
 package jsonAbles.config.json;
 
+import com.google.common.base.Strings;
 import jsonAbles.JsonAbles;
 import jsonAbles.api.MaterialSet;
 import jsonAbles.api.RecipeRegistry;
+import jsonAbles.api.json.EnchantHelper;
+import jsonAbles.api.json.EnchantHelper.EnchantmentWithLevel;
 import jsonAbles.api.json.StackHelper;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -24,6 +28,7 @@ public class MaterialType implements IJSONObject {
 	public int bowDrawSpeed = 0;
 	public float bowSpeedMax = 0;
 	public String[][] nativeModifiers = null;
+	public String[] nativeEnchantments = null;
 
 	public void register() {
 		try {
@@ -76,8 +81,7 @@ public class MaterialType implements IJSONObject {
 	 *     ]
 	 * </code>
 	 */
-	public ItemStack[][] getNativeModifiers()
-	{
+	public ItemStack[][] getNativeModifiers() {
 		if (nativeModifiers == null) return new ItemStack[0][];
 		if (nativeModifiers.length == 0) return new ItemStack[0][];
 		List<ItemStack[]> output = new ArrayList<ItemStack[]>();
@@ -96,5 +100,38 @@ public class MaterialType implements IJSONObject {
 			output.add(group.toArray(new ItemStack[group.size()]));
 		}
 		return output.toArray(new ItemStack[output.size()][]);
+	}
+
+	/**
+	 * Sorts the String array into an array of EnchantmentWithLevel's
+	 *
+	 * The proper json formatting is a string consisting of an enchantment ID and optionally an enchantment level.
+	 * Like so: "id" or "id level".
+	 * By default a level of 1 will be assumed
+	 *
+	 * In json:
+	 * <code>
+	 *     "nativeEnchantments": [
+	 *         "id level"
+	 *     ]
+	 * </code>
+	 *
+	 * Or:
+	 * <code>
+	 *     "nativeEnchantments": [
+	 *         "id"
+	 *     ]
+	 * </code>
+	 *
+	 */
+	public EnchantmentWithLevel[] getNativeEnchantments() {
+		if (nativeEnchantments == null) return new EnchantmentWithLevel[0];
+		if (nativeEnchantments.length == 0) return new EnchantmentWithLevel[0];
+		List<EnchantmentWithLevel> out = new ArrayList<EnchantmentWithLevel>();
+		for (String string : nativeEnchantments) {
+			if (Strings.isNullOrEmpty(string)) continue;
+			EnchantHelper.addToList(EnchantHelper.getEnchantmentWithLevelFromString(string), out);
+		}
+		return out.toArray(new EnchantmentWithLevel[out.size()]);
 	}
 }

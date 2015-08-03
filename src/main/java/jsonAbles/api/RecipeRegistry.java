@@ -3,10 +3,13 @@ package jsonAbles.api;
 import java.util.ArrayList;
 
 import jsonAbles.ModProps;
+import jsonAbles.api.json.EnchantHelper;
+import jsonAbles.api.json.EnchantHelper.EnchantmentWithLevel;
 import jsonAbles.blocks.MoltenFluid;
 import jsonAbles.items.ItemFluidBucket;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -62,6 +65,15 @@ public class RecipeRegistry {
 		for (MaterialSet set : materials) {
 			if (set.materialID == materialID) {
 				return set.nativeModifiers;
+			}
+		}
+		return null;
+	}
+
+	public static EnchantmentWithLevel[] getNativeEnchantments(int materialID) {
+		for (MaterialSet set : materials) {
+			if (set.materialID == materialID) {
+				return set.nativeEnchantments;
 			}
 		}
 		return null;
