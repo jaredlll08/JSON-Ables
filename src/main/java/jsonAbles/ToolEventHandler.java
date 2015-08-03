@@ -1,9 +1,12 @@
 package jsonAbles;
 
-import java.util.ArrayList;
-
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import jsonAbles.api.RecipeRegistry;
 import jsonAbles.api.RecipeRegistry.Refrence;
+import jsonAbles.api.json.EnchantHelper;
+import jsonAbles.api.json.EnchantHelper.EnchantmentWithLevel;
 import mantle.world.WorldHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
@@ -13,10 +16,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import org.lwjgl.Sys;
+import tconstruct.library.crafting.ModifyBuilder;
 import tconstruct.library.event.ToolCraftEvent;
 import tconstruct.library.tools.ToolCore;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.*;
 
 public class ToolEventHandler {
 	@SubscribeEvent
@@ -89,15 +94,62 @@ public class ToolEventHandler {
 		}
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOW) // Low priority, so that Tickers' WeaponryHandler can do its thing first
 	public void craftTool(ToolCraftEvent.NormalTool event) {
 		NBTTagCompound toolTag = event.toolTag.getCompoundTag("InfiTool");
-		int modifiers = toolTag.getInteger("Modifiers");
-		modifiers += RecipeRegistry.getToolModifiers(toolTag.getInteger("Head"));
-		modifiers += RecipeRegistry.getToolModifiers(toolTag.getInteger("Handle"));
-		modifiers += RecipeRegistry.getToolModifiers(toolTag.getInteger("Accessory"));
-		modifiers += RecipeRegistry.getToolModifiers(toolTag.getInteger("Extra"));
-		toolTag.setInteger("Modifiers", modifiers);
-	}
 
+		ItemStack result = new ItemStack(event.tool); // Used to apply native modifiers
+		result.stackTagCompound = event.toolTag;
+
+		boolean override = false;
+		int modifiers = toolTag.getInteger("Modifiers"); // Saved for later
+		List<EnchantmentWithLevel> list = new ArrayList<EnchantmentWithLevel>();
+
+		toolTag.setInteger("Modifiers", Integer.MAX_VALUE / 2); // Allows native modifiers to be applied without using up real modifiers
+		for (int materialID : new int[] {toolTag.getInteger("Head"), toolTag.getInteger("Handle"), toolTag.getInteger("Accessory"), toolTag.getInteger("Extra")}) {
+			if (materialID == 0) continue; // No part
+
+			// Extra modifier counter
+			modifiers += RecipeRegistry.getToolModifiers(materialID); // Extra modifiers, added to the amount saved before.
+
+			// Native TC modifiers
+			ItemStack[][] nativeModifiers = RecipeRegistry.getNativeModifiers(materialID);
+			if (nativeModifiers != null && nativeModifiers.length != 0) {
+				override = true; // We have at least 1 native modifier so we override the result
+				for (ItemStack[] items : nativeModifiers) {
+					if (items == null || items.length == 0) continue; // null items
+					ItemStack tmp = ModifyBuilder.instance.modifyItem(result, items); // Do the actual modification
+					if (tmp == null) continue; // Unable to comply
+					result = tmp;
+				}
+			}
+
+			// Add native vanilla enchants to list so that there levels add up, instead of the enchantment being applied multiple times.
+			EnchantmentWithLevel[] nativeEnchantments = RecipeRegistry.getNativeEnchantments(materialID);
+			if (nativeEnchantments != null && nativeEnchantments.length != 0) {
+				for (EnchantmentWithLevel enchantment : nativeEnchantments) {
+					if (enchantment != null) {
+						EnchantHelper.addToList(enchantment, list);
+					}
+				}
+			}
+		}
+
+		// The enchant applies to the itemstack, so we override
+		if (!list.isEmpty()) {
+			override = true;
+			for (EnchantmentWithLevel enchantment : list) {
+				enchantment.applyTo(result);
+			}
+		}
+
+
+		if (override) {
+			result.stackTagCompound.getCompoundTag("InfiTool").setInteger("Modifiers", modifiers); // set back the proper amount of modifiers
+			event.overrideResult(result);
+		}
+		else {
+			toolTag.setInteger("Modifiers", modifiers);
+		}
+	}
 }
