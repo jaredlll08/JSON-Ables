@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.client.resources.IResourcePack;
@@ -37,7 +36,6 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
  */
 public class ResourcePackAssembler
 {
-    @AllArgsConstructor
     private class CustomFile
     {
         private String ext;
