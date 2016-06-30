@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.10-1.0.9"
+version = "1.7.10-1.0.10"
 group= "JSONAbles" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "{ JSONAbles }"
 
 minecraft {
-    version = "1.7.10-10.13.4.1448-1.7.10"
+    version = "1.7.10-10.13.4.1614-1.7.10"
     runDir = "eclipse"
 }
 
@@ -46,12 +46,12 @@ processResources
         exclude 'mcmod.info'
     }
 }
-repositories {
-    maven { // ttCore
-        name 'tterrag Repo'
-        url "http://maven.tterrag.com/"
-    }
-}
+// repositories {
+//     maven { // ttCore
+//         name 'tterrag Repo'
+//         url "http://maven.tterrag.com/"
+//     }
+// }
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -65,7 +65,7 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-	compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"	
+	//compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"	
 }
 task deobfJar(type: Jar) {
     from sourceSets.main.output

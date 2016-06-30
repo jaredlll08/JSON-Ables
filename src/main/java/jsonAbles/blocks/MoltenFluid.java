@@ -15,8 +15,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class MoltenFluid extends BlockFluidClassic {
 	public IIcon stillIcon;
 	public IIcon flowingIcon;
-	private String stillIconTexture = "liquid_gray";
-	private String flowIconTexture = "liquid_gray_flow";
+	private String stillIconTexture; // = "liquid_gray";
+	private String flowIconTexture; // = "liquid_gray_flow";
 	private Fluid fluid;
 	public int color;
 	public FluidSet set;
@@ -29,8 +29,8 @@ public class MoltenFluid extends BlockFluidClassic {
 		this.fluid = fluid;
 		String path = JsonAbles.configDir.getPath();
 		this.set = set;
-		this.stillIconTexture = (ModProps.modid + ":" + stillIconTexture);
-		this.flowIconTexture = (ModProps.modid + ":" + flowIconTexture);
+		this.stillIconTexture = (ModProps.modid + ":" + fluid.getUnlocalizedName());
+		this.flowIconTexture = (ModProps.modid + ":" + fluid.getUnlocalizedName() + "_flow");
 		this.color = color;
 	}
 
